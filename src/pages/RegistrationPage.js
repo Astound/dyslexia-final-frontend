@@ -1,35 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const client = axios.create({
+  baseURL: process.env.REACT_APP_BACKEND_URL + "/user/register/",
+});
 
-export const RegistrationPage = () => {
+const RegistrationPage = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    studentClass: "",
+    emailId: "",
+    password: "",
+    cnfPassword: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+    client
+      .post("", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dob: formData.dob,
+        class: formData.studentClass,
+        email: formData.emailId,
+        password: formData.password,
+      })
+      .then((response) => {
+        console.log("User Registered");
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Registration failed");
+      });
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [id]: value }));
+  };
+
   const inputFields = [
-    ["text", "firstName", "First Name"],
-    ["text", "lastName", "Last Name"],
-    ["date", "dob", "Date Of Birth"],
-    ["text", "studentClass", "Class"],
-    ["email", "emailId", "Email Address"],
-    ["text", "joiningCode", "Joining Code"],
-    ["password", "password", "Password"],
-    ["password", "cnfPassword", "Confirm Password"],
+    ["text", "firstName", "First Name", formData.firstName],
+    ["text", "lastName", "Last Name", formData.lastName],
+    ["date", "dob", "Date Of Birth", formData.dob],
+    ["text", "studentClass", "Class", formData.studentClass],
+    ["email", "emailId", "Email Address", formData.emailId],
+    ["password", "password", "Password", formData.password],
+    ["password", "cnfPassword", "Confirm Password", formData.cnfPassword],
   ];
 
   return (
-    <>
-      <div className="h-screen grid place-content-center">
-        <div className="grid grid-cols-2 gap-10 w-full">
-          {inputFields.map(([type, id, placeholder]) => (
+    <div className="h-screen grid place-content-center bg-gray-200">
+      <div className="p-8 bg-white shadow-md rounded-md">
+        <h1 className="text-2xl font-bold mb-4">Registration Form</h1>
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+          {inputFields.map(([type, id, placeholder, value]) => (
             <input
-              className="w-30 border-4 px-7 py-5 "
+              key={id}
+              className="border-2 border-gray-400 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={placeholder}
               type={type}
               id={id}
+              value={value}
+              onChange={handleChange}
               required
             />
           ))}
-        </div>
-        <div className="grid place-content-center mt-16">
-          <button className="bg-blue-200 w-30 px-10 py-2"> Register</button>
-        </div>
+          <div className="col-span-2 flex justify-center">
+            <button className="bg-blue-400 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400">
+              Register
+            </button>
+          </div>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
+
+export default RegistrationPage;

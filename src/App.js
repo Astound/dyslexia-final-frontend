@@ -1,4 +1,3 @@
-import { RegistrationPage } from "./pages/RegistrationPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
@@ -6,6 +5,8 @@ import StudentDashboard from "./pages/StudentDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import PerformanceReport from "./pages/PerformancePage";
 import TaskPage from "./pages/TaskPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import EditProfile from "./pages/EditProfile";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
             path="/performancereport"
             element={<PerformanceReport />}
           />
+          <Route exact path="/editprofile" element={<EditProfile />} />
         </Routes>
       </Router>
     </>
