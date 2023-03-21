@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -16,14 +16,13 @@ const LoginPage = () => {
     client
       .post("/", { email, password })
       .then((response) => {
-        console.log(response.data);
-        navigate("/studentdashboard"); // navigate to "studentdashboard" page
+        console.log(response.data.userId);
+        navigate("/studentdashboard");
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
   return (
     <>
       <div className="min-h-screen bg-gray-50 flex flex-wrap">

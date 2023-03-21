@@ -7,6 +7,7 @@ import PerformanceReport from "./pages/PerformancePage";
 import TaskPage from "./pages/TaskPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import EditProfile from "./pages/EditProfile";
+import AdminDashboard from "./pages/AdminDashboard";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
             element={<PerformanceReport />}
           />
           <Route exact path="/editprofile" element={<EditProfile />} />
+          <Route exact path="/admindashboard" element={<AdminDashboard />} />
         </Routes>
       </Router>
     </>
