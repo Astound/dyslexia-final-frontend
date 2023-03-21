@@ -26,7 +26,7 @@ export default function App() {
             path="/teacherdashboard"
             element={<TeacherDashboard />}
           />
-          <Route exact path="/performtask" element={<TaskPage />} />
+          <Route exact path="/performtask/:taskId" element={<TaskPage />} />
           <Route
             exact
             path="/performancereport"
