@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { SetUserIdAction } from "../actions/UserActions";
 
 const client = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL + "/user/login/",
@@ -11,22 +13,26 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const User = useSelector((state) => state.User);
+  const { userId } = User;
   const handleSubmit = (event) => {
     event.preventDefault();
     client
       .post("/", { email, password })
       .then((response) => {
-        console.log(response.data.userId);
+        dispatch(SetUserIdAction(response.data.userId));
         navigate("/studentdashboard");
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   return (
     <>
-      <div className="min-h-screen bg-gray-50 flex flex-wrap">
-        <div className="w-full md:w-1/2 bg-gray-50 flex justify-center items-center">
+      <div className="min-h-screen bg-gray-100 flex flex-wrap">
+        <div className="w-full md:w-1/2 bg-gray-100 flex justify-center items-center">
           <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-gray-800">
               What is Dyslexia?
@@ -54,7 +60,7 @@ const LoginPage = () => {
             </p>
           </div>
         </div>
-        <div className="w-full md:w-1/2 bg-gray-50 flex justify-center items-center">
+        <div className="w-full md:w-1/2 bg-gray-100 flex justify-center items-center">
           <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md space-y-6 border border-gray-200">
             <h2 className="text-2xl font-bold text-gray-800">Log In</h2>
             <form className="space-y-6" onSubmit={handleSubmit}>
