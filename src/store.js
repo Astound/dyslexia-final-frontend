@@ -6,7 +6,6 @@ import { UserReducer } from "./reducers/UserReducer";
 const reducer = combineReducers({
   User: UserReducer,
 });
-
 const initialState = {};
 
 const middleware = [thunk];

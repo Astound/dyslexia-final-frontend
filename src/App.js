@@ -8,6 +8,7 @@ import TaskPage from "./pages/TaskPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import EditProfile from "./pages/EditProfile";
 import AdminDashboard from "./pages/AdminDashboard";
+import CreateTask from "./pages/CreateTask";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
           />
           <Route exact path="/editprofile" element={<EditProfile />} />
           <Route exact path="/admindashboard" element={<AdminDashboard />} />
+          <Route exact path="/createtask" element={<CreateTask />} />
         </Routes>
       </Router>
     </>

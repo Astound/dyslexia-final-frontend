@@ -2,10 +2,14 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { SetUserIdAction } from "../actions/UserActions";
+import {
+  SetUserDetailsAction,
+  SetUserIdAction,
+  SetUserTokenAction,
+} from "../actions/UserActions";
 
 const client = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL + "/user/login/",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 const LoginPage = () => {
@@ -14,14 +18,33 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const User = useSelector((state) => state.User);
-  const { userId } = User;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     client
-      .post("/", { email, password })
+      .post("/user/login/", { email, password })
       .then((response) => {
+        console.log(response.data);
         dispatch(SetUserIdAction(response.data.userId));
+        dispatch(SetUserTokenAction(response.data.token));
+        const token = response.data.token;
+        fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/${response.data.userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
         navigate("/studentdashboard");
       })
       .catch((error) => {

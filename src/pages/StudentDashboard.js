@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import ProfileNavbar from "../components/ProfileNavbar";
 import Footer from "../components/Footer";
 import axios from "axios";
-import { useSelector } from "react-redux";
+
 const StudentDashboard = () => {
   const [tasks, setTasks] = useState([]);
-  const User = useSelector((state) => state.User);
-  const { userId } = User;
+
   useEffect(() => {
     axios.get("http://localhost:5000/tasks").then((response) => {
       setTasks(response.data);
