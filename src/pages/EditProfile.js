@@ -1,22 +1,36 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import ProfileNavbar from "../components/ProfileNavbar";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    email: "",
     dob: "",
-    studentClass: "",
-    password: "",
+    class: "",
   });
+  const navigate = useNavigate();
+  const User = useSelector((state) => state.User);
+  const { userId } = User;
 
   useEffect(() => {
-    const userId = fetch(`http://localhost:5000/user/63f7b62f1dbdf32aaa544c89`)
-      .then((response) => response.json())
-      .then((data) => setFormData(data))
-      .catch((error) => console.error(error));
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/user/${userId}`);
+        const data = await response.json();
+        data.dob = new Date(data.dob).toLocaleDateString("en-CA");
+        console.log(data);
+        setFormData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUserData();
+  }, [userId]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -26,9 +40,28 @@ const EditProfile = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/user/update/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      toast.success("User updated successfully!");
+      navigate("/studentdashboard");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -60,6 +93,17 @@ const EditProfile = () => {
             </div>
             <div className="mt-4">
               <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                className="border border-gray-400 p-2 rounded-md w-full"
+                value={formData.email}
+                onChange={handleInputChange}
+                disabled
+              />
+            </div>
+            <div className="mt-4">
+              <input
                 type="date"
                 name="dob"
                 placeholder="Date of Birth"
@@ -74,20 +118,12 @@ const EditProfile = () => {
                 name="studentClass"
                 placeholder="Student Class"
                 className="border border-gray-400 p-2 rounded-md w-full"
-                value={formData.studentClass}
+                value={formData.class}
                 onChange={handleInputChange}
+                disabled
               />
             </div>
-            <div className="mt-4">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="border border-gray-400 p-2 rounded-md w-full"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-            </div>
+
             <div className="mt-8">
               <button
                 type="submit"

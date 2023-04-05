@@ -9,6 +9,7 @@ import {
 } from "../actions/UserActions";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
 
 const client = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -26,7 +27,6 @@ const LoginPage = () => {
     client
       .post("/user/login/", { email, password })
       .then((response) => {
-        console.log(response.data);
         dispatch(SetUserIdAction(response.data.userId));
         dispatch(SetUserTokenAction(response.data.token));
         const token = response.data.token;
@@ -51,6 +51,7 @@ const LoginPage = () => {
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Invalid email or password.");
       });
   };
 

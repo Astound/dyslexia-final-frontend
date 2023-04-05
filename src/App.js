@@ -11,10 +11,13 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CreateTask from "./pages/CreateTask";
 import AboutPage from "./pages/AboutPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   return (
     <>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
