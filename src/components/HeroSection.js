@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const HeroSection = () => {
   return (
     <div
@@ -13,9 +13,12 @@ const HeroSection = () => {
         Our platform provides interactive resources and tools to help dyslexic
         students learn to read, write, and succeed in their studies.
       </p>
-      <button className="bg-gray-800 text-white py-2 px-6 rounded-full text-lg font-semibold hover:text-gray-800 hover:bg-white  transition duration-300">
+      <Link
+        to="/register"
+        className="bg-gray-800 text-white py-2 px-6 rounded-full text-lg font-semibold hover:text-gray-800 hover:bg-white  transition duration-300"
+      >
         Start Learning
-      </button>
+      </Link>
     </div>
   );
 };

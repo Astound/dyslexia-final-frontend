@@ -9,6 +9,8 @@ import RegistrationPage from "./pages/RegistrationPage";
 import EditProfile from "./pages/EditProfile";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateTask from "./pages/CreateTask";
+import AboutPage from "./pages/AboutPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 export default function App() {
   return (
@@ -18,6 +20,12 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route exact path="/register" element={<RegistrationPage />} />
           <Route exact path="/login" element={<LoginPage />} />
+          <Route exact path="/about" element={<AboutPage />} />
+          <Route
+            exact
+            path="/forgotpassword"
+            element={<ForgotPasswordPage />}
+          />
           <Route
             exact
             path="/studentdashboard"

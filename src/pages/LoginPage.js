@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   SetUserDetailsAction,
   SetUserIdAction,
   SetUserTokenAction,
 } from "../actions/UserActions";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const client = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -54,7 +56,8 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex flex-wrap">
+      <Navbar />
+      <div className="min-h-screen bg-gray-100 flex flex-wrap   ">
         <div className="w-full md:w-1/2 bg-gray-100 flex justify-center items-center">
           <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-gray-800">
@@ -125,22 +128,33 @@ const LoginPage = () => {
                 </div>
                 <div className="text-sm">
                   <a
-                    href="#"
+                    href="/forgotpassword"
                     className="font-medium text-blue-600 hover:text-blue-500"
                   >
                     Forgot your password?
                   </a>
                 </div>
               </div>
-              <div className="flex justify-center">
-                <button className="bg-blue-500 hover:bg-blue-600 w-full md:w-auto py-3 px-6 rounded-md text-white font-bold">
+              <div className="flex justify-center w-full">
+                <button className="bg-blue-500 hover:bg-blue-600 w-full md:w-full py-3 px-6 rounded-md text-white font-bold">
                   Log In
                 </button>
               </div>
+
+              <p className="text-gray-600 text-center mt-4">
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-blue-500 hover:text-blue-600"
+                >
+                  Register here
+                </Link>
+              </p>
             </form>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

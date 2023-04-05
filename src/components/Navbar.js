@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="w-full h-20 flex items-center bg-gray-800 px-4 sm:px-20 text-white">
-      <div className="text-xl font-bold">Dyslexia Education Platform</div>
+    <div className="absolute w-full h-20 flex items-center bg-gray-800 px-4 sm:px-20 text-white">
+      <Link to="/">
+        <div className="text-xl font-bold">Dyslexia Education Platform</div>
+      </Link>
       <div className="ml-auto">
         <a href="/login" className="mr-6 hover:underline">
           Login
