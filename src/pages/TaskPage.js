@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useSpeechSynthesis } from "react-speech-kit";
 
 const TaskPage = () => {
   const navigate = useNavigate();
@@ -37,19 +36,28 @@ const TaskPage = () => {
   const handleHintClick = () => {
     console.log("hint");
   };
-
-  const { speak } = useSpeechSynthesis();
-
+  useEffect(() => {
+    setTimerOn(true);
+  }, []);
   const handleVoiceoverClick = () => {
     const sentence = taskData?.sentences[currentRound];
-    speak({ text: "hello" });
+    const msg = new SpeechSynthesisUtterance(sentence);
+    window.speechSynthesis.speak(msg);
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const sentence = taskData?.sentences[currentRound];
     if (userSentence.toLowerCase() === sentence.toLowerCase()) {
       console.log(currentRound, "correct");
+      if (currentRound + 1 !== taskData.sentences.length) {
+        setCurrentRound(currentRound + 1);
+        setCurrentWordIndex(-1);
+      } else {
+        toast.success("Task completed successfully", {
+          autoClose: 2000,
+        });
+        navigate("/studentdashboard");
+      }
       setTimerOn(false);
       setRoundTimes([...roundTimes, time - lastRoundTime]);
       setLastRoundTime(time);
@@ -135,12 +143,6 @@ const TaskPage = () => {
           </div>
 
           <div className="flex flex-col justify-center items-center gap-4">
-            <button
-              className="bg-blue-500 text-white py-4 px-8 rounded-md font-bold h-16 w-64"
-              onClick={() => setTimerOn(true)}
-            >
-              Start Timer
-            </button>
             <button
               className="bg-blue-500 text-white py-4 px-8 rounded-md font-bold h-16 w-64"
               onClick={handleNextWordClick}

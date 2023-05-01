@@ -18,3 +18,11 @@ export const SEND_MESSAGE = {
   url: "chat/send",
   reqType: "post",
 };
+export const CREATE_TASK = {
+  url: "tasks/create",
+  reqType: "post",
+};
+export const GET_TASK = {
+  url: "tasks",
+  reqType: "get",
+};

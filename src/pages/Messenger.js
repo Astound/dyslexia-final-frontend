@@ -98,7 +98,10 @@ export default function Messenger() {
             <input placeholder="Search for friends" className="chatMenuInput" />
             {conversations?.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} currentUser={user} />
+                <Conversation
+                  conversation={c}
+                  currentUser={currentChat.chatId === c.chatId}
+                />
               </div>
             ))}
           </div>
@@ -119,7 +122,7 @@ export default function Messenger() {
                 </div>
                 <div className="chatBoxBottom">
                   <textarea
-                    className="chatMessageInput"
+                    className="chatMessageInput border-2 w-full"
                     placeholder="write something..."
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
