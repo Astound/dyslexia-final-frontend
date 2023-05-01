@@ -21,6 +21,16 @@ const RegistrationPage = () => {
     cnfPassword: "",
   });
 
+  const inputFields = [
+    ["text", "firstName", "First Name", formData.firstName],
+    ["text", "lastName", "Last Name", formData.lastName],
+    ["date", "dob", "Date Of Birth", formData.dob],
+    ["text", "studentClass", "Class", formData.studentClass],
+    ["email", "emailId", "Email Address", formData.emailId],
+    ["password", "password", "Password", formData.password],
+    ["password", "cnfPassword", "Confirm Password", formData.cnfPassword],
+  ];
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here
@@ -46,16 +56,6 @@ const RegistrationPage = () => {
     const { id, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [id]: value }));
   };
-
-  const inputFields = [
-    ["text", "firstName", "First Name", formData.firstName],
-    ["text", "lastName", "Last Name", formData.lastName],
-    ["date", "dob", "Date Of Birth", formData.dob],
-    ["text", "studentClass", "Class", formData.studentClass],
-    ["email", "emailId", "Email Address", formData.emailId],
-    ["password", "password", "Password", formData.password],
-    ["password", "cnfPassword", "Confirm Password", formData.cnfPassword],
-  ];
 
   return (
     <>

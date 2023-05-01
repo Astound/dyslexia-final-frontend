@@ -16,6 +16,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const User = useSelector((state) => state.User);
   const { userId } = User;
+  console.log(User);
 
   useEffect(() => {
     const fetchUserData = async () => {

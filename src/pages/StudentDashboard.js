@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import ProfileNavbar from "../components/ProfileNavbar";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const StudentDashboard = () => {
   const [tasks, setTasks] = useState([]);
+  const userDetails = useSelector((state) => state.User.userDetails);
 
   useEffect(() => {
     axios.get("http://localhost:5000/tasks").then((response) => {
       setTasks(response.data);
-      // response.data.map((task) => console.log(task._id));
+      console.log(response.data);
     });
   }, []);
 
@@ -21,6 +23,8 @@ const StudentDashboard = () => {
         <div className="col-span-2">
           <div className="flex flex-col gap-4">
             {tasks.map((task) => (
+              // Display task only if the class matches the user's class
+
               <div
                 key={task._id}
                 className="bg-gray-100 px-6 py-4 flex justify-between items-center rounded-md border-2 border-gray-200"

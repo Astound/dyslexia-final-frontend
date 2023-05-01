@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,25 +29,18 @@ const LoginPage = () => {
       .then((response) => {
         dispatch(SetUserIdAction(response.data.userId));
         dispatch(SetUserTokenAction(response.data.token));
-        const token = response.data.token;
-        fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/${response.data.userId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-          .then((response) => {
-            console.log(response);
+        // Fetch user info from the backend
+        client
+          .get(`/user/${response.data.userId}`)
+          .then((userInfoResponse) => {
+            // Store user info in the redux store
+            dispatch(SetUserDetailsAction(userInfoResponse.data));
+            navigate("/studentdashboard");
           })
           .catch((error) => {
             console.log(error);
+            toast.error("Error fetching user info.");
           });
-
-        navigate("/studentdashboard");
       })
       .catch((error) => {
         console.log(error);
