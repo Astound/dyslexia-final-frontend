@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import ProfileNavbar from "../components/ProfileNavbar";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
-import { useSpeechRecognition } from "react-speech-kit";
-
 const TaskPage = () => {
   const { taskId } = useParams();
   const [taskData, setTaskData] = useState(null);

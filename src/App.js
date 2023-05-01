@@ -13,6 +13,7 @@ import AboutPage from "./pages/AboutPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Messenger from "./pages/Messenger";
 
 export default function App() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
           <Route exact path="/editprofile" element={<EditProfile />} />
           <Route exact path="/admindashboard" element={<AdminDashboard />} />
           <Route exact path="/createtask" element={<CreateTask />} />
+          <Route exact path="/chatSection" element={<Messenger />} />
         </Routes>
       </Router>
     </>
