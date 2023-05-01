@@ -7,12 +7,12 @@ import { useSelector } from "react-redux";
 
 const StudentDashboard = () => {
   const [tasks, setTasks] = useState([]);
-  const userDetails = useSelector((state) => state.User.userDetails);
+  const User = useSelector((state) => state.User);
+  const { userDetails } = User;
 
   useEffect(() => {
     axios.get("http://localhost:5000/tasks").then((response) => {
       setTasks(response.data);
-      console.log(response.data);
     });
   }, []);
 

@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 const client = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL + "/user/register/",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 const RegistrationPage = () => {
@@ -35,7 +35,7 @@ const RegistrationPage = () => {
     e.preventDefault();
     // Handle form submission here
     client
-      .post("", {
+      .post("/user/register/", {
         firstName: formData.firstName,
         lastName: formData.lastName,
         dob: formData.dob,

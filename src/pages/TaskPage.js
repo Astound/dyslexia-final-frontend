@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import ProfileNavbar from "../components/ProfileNavbar";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
-import { useSpeechRecognition } from "react-speech-kit";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useSpeechSynthesis } from "react-speech-kit";
 
 const TaskPage = () => {
+  const navigate = useNavigate();
   const { taskId } = useParams();
   const [taskData, setTaskData] = useState(null);
   const [currentRound, setCurrentRound] = useState(0);
@@ -12,6 +15,10 @@ const TaskPage = () => {
   const [userSentence, setUserSentence] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [lastRoundTime, setLastRoundTime] = useState(0);
+  const [roundTimes, setRoundTimes] = useState([]);
+  const [time, setTime] = useState(0);
+  const [timerOn, setTimerOn] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:5000/tasks/${taskId}`)
@@ -31,21 +38,61 @@ const TaskPage = () => {
     console.log("hint");
   };
 
+  const { speak } = useSpeechSynthesis();
+
   const handleVoiceoverClick = () => {
     const sentence = taskData?.sentences[currentRound];
-    const msg = new SpeechSynthesisUtterance(sentence);
-    window.speechSynthesis.speak(msg);
+    speak({ text: "hello" });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const sentence = taskData?.sentences[currentRound];
     if (userSentence.toLowerCase() === sentence.toLowerCase()) {
-      console.log("correct");
+      console.log(currentRound, "correct");
+      setTimerOn(false);
+      setRoundTimes([...roundTimes, time - lastRoundTime]);
+      setLastRoundTime(time);
+      setUserSentence("");
+      setTimerOn(true);
+      if (currentRound + 1 === taskData.sentences.length) {
+        setTimerOn(false);
+        return (
+          <>
+            <ProfileNavbar ProfileNavbarTitle="Perform Task" />
+            <div>Task completed!</div>
+            <Footer />
+          </>
+        );
+      }
+      toast.success("Correct sentence! You can go to next round", {
+        autoClose: 2000,
+      });
     } else {
-      alert("Incorrect sentence. Please try again.");
+      toast.error("Incorrect sentence. Please try again.", {
+        autoClose: false,
+      });
     }
   };
+
+  useEffect(() => {
+    let interval;
+
+    if (timerOn) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [timerOn]);
+
+  const minutes = Math.floor(time / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (time % 60).toString().padStart(2, "0");
 
   return (
     <>
@@ -88,8 +135,11 @@ const TaskPage = () => {
           </div>
 
           <div className="flex flex-col justify-center items-center gap-4">
-            <button className="bg-blue-500 text-white py-4 px-8 rounded-md font-bold h-16 w-64">
-              Start
+            <button
+              className="bg-blue-500 text-white py-4 px-8 rounded-md font-bold h-16 w-64"
+              onClick={() => setTimerOn(true)}
+            >
+              Start Timer
             </button>
             <button
               className="bg-blue-500 text-white py-4 px-8 rounded-md font-bold h-16 w-64"
@@ -122,6 +172,12 @@ const TaskPage = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col items-center justify-center">
+        <p className="text-5xl font-bold text-blue-500">
+          {minutes < 10 ? `${minutes}` : minutes}:
+          {seconds < 10 ? `${seconds}` : seconds}
+        </p>
       </div>
 
       <Footer />

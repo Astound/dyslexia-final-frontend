@@ -9,7 +9,9 @@ const TeacherNavbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/">
-              <span className="text-white text-xl font-bold">Rahuk</span>
+              <span className="text-white text-xl font-bold">
+                Welcome Rahul
+              </span>
             </Link>
           </div>
           <div className="hidden md:block">
